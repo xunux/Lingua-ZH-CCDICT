@@ -2,7 +2,9 @@ use strict;
 
 $^W = 1;
 
-use lib '.', './t';
+use File::Spec;
+
+use lib File::Spec->curdir, File::Spec->catdir( File::Spec->curdir, 't' );
 
 use File::Spec;
 

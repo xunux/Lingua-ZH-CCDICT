@@ -1,3 +1,13 @@
+0.02  Feb 26, 2002
+
+- Fixed a bug in turning fifth tone (no tone) pinyin syllables into
+Unicode.  The syllable was being turned into '', which is definitely
+not right ;)
+
+- Fixed COPYRIGHT sections of docs to specify that the module is
+licensed under the same terms as Perl itself, not just the Artistic
+License.
+
 0.01  Aug 23, 2002 (from Taiwan)
 
 - First release.  It seems to work but no doubt has bugs.

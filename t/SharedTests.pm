@@ -8,7 +8,7 @@ use Test::More;
 
 if ( _should_run_tests() )
 {
-    plan tests => 53;
+    plan tests => 57;
 }
 else
 {
@@ -73,6 +73,9 @@ sub run_tests
         $expect = 'l' . chr(249);
         is( $py[1]->as_unicode, $expect,
             "second pinyin's unicode version is not what was expected" );
+
+        is( $py[1] cmp $py[1], 0,
+            "cmp should return 0 when given the same syllable twice" );
 
         my @ty = $item->tongyong;
 
@@ -181,7 +184,22 @@ sub run_tests
             "the first result should be unicode character 0x4138" );
     }
 
+    {
+        my $results = $dict->match_unicode( chr 0x0561B );
 
+        ok( $results,
+            "match_unicode should return something" );
+
+        my @results = $results->all;
+
+        is( scalar @results, 1,
+            "match_unicode should only return one result when given one character" );
+
+        my @py = $results[0]->pinyin;
+
+        is( $py[0]->as_unicode, 'ma',
+            "Pinyin syllable 5 should be handled properly in conversion to Unicode" );
+    }
 }
 
 sub _should_run_tests

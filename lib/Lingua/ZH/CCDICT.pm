@@ -7,11 +7,12 @@ use 5.006001;
 
 use vars qw ($VERSION);
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use Params::Validate qw(:all);
 
-my %storage = map { lc $_ => $_ } ( qw( InMemory XML BerkeleyDB ) );
+my %storage;
+BEGIN { %storage = map { lc $_ => $_ } ( qw( InMemory XML BerkeleyDB ) ) }
 
 sub new
 {
@@ -331,7 +332,7 @@ sub _pinyin_as_unicode
     }
 
     # no tone marking
-    return if $num == 5;
+    return $syl if $num == 5;
 
     my @letters = split //, $syl;
 
@@ -462,17 +463,18 @@ Lingua::ZH::CCDICT - An interface to the CCDICT Chinese dictionary
 
 This module provides a Perl interface to the CCDICT dictionary created
 by Thomas Chin.  This dictionary is indexed by Unicode character
-number, and contains information about these characters.
+number (traditional character), and contains information about these
+characters.
 
 As of version 3.2.0 of the dictionary, it was released under the Open
 Publication License v0.4, without either of the optional clauses.  See
 the CCDICT licensing statement for more details.  IANAL, but I believe
-that the OPL combined with the fact that this module is under the
-Artistic License, makes this module and the CCDICT dictionary fit both
-the Free Software and Open Source definitions.
+that the OPL combined with the fact that this module is under the same
+terms as Perl itself, makes this module and the CCDICT dictionary fit
+both the Free Software and Open Source definitions.
 
 The dictionary contains the following information, though not all
-information is avaialable for all characters.
+information is avaialable for every character.
 
 =over 4
 
@@ -640,6 +642,9 @@ order.
 This method matches on one or more Unicode characters.  Unicode
 characters should be given as Perl characters (i.e. C<chr(0x7D20)>),
 not as a number.
+
+This dictionary index uses I<traditional> Chinese characters.
+Simplified character lookups will not work.
 
 =item * match_radical (@numbers)
 
@@ -830,7 +835,8 @@ where needed.
 
 The C<Lingua::ZH::CCDICT::Romanization::Pinyin::Hanyu> class is used
 for the return values of the C<Lingua::ZH::CCDICT::ResultItem> class's
-C<pinyin> method, and provides the following additional method:
+C<pinyin> method.  This class provides the C<as_unicode> method
+described above, as well as:
 
 =over 4
 
@@ -864,13 +870,12 @@ David Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002 David Rolsky. All rights reserved.
-This program is free software licensed under the ...
+Copyright (c) 2002-2003 David Rolsky.  All rights reserved.  This
+program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
 
-	The Artistic License
-
-The full text of the license can be found in the
-LICENSE file included with this module.
+The full text of the license can be found in the LICENSE file included
+with this module.
 
 =head1 CCDICT COPYRIGHT
 
@@ -890,3 +895,4 @@ http://www.chinalanguage.com/CCDICT/ - the home of the CCDICT
 dictionary.
 
 =cut
+
