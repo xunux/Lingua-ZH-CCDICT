@@ -1,0 +1,18 @@
+Changes
+LICENSE
+MANIFEST			This list of files
+Makefile.PL
+README
+TODO
+bin/make_berkleydb_files.pl
+ccdict/ccdict.txt
+ccdict/license.txt
+ccdict/readme.txt
+lib/Lingua/ZH/CCDICT.pm
+lib/Lingua/ZH/CCDICT/ResultSet/Array.pm
+lib/Lingua/ZH/CCDICT/ResultSet/BerkeleyDB.pm
+lib/Lingua/ZH/CCDICT/Storage/BerkeleyDB.pm
+lib/Lingua/ZH/CCDICT/Storage/InMemory.pm
+t/01_memory.t
+t/02_bdb.t
+t/SharedTests.pm

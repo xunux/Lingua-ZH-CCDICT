@@ -1,0 +1,37 @@
+ABOUT
+
+Lingua::ZH::CCDICT provides an Object-Oriented Perl inteface the
+CCDICT Chinese dictionary created by Thomas Chin.
+
+The CCDICT dictionary is a dictionary of Chinese characters and
+provides information such as radical, stroke count, multiple
+romanizations (for different dialects), and English definitions.
+
+The dictionary itself is distributed under the Open Publication
+License.
+
+UTILITIES
+
+See the included make_berkeleydb_files.pl script in bin/ for a simple
+way to generate a set of BerkeleyDB files for the dictionary.
+
+BUGS
+
+The CCDICT source has some bugs.  Please report them to me, rather
+than the CCDICT maintainer.  This is for two reasons.  Some apparent
+dictionary bugs may really be bugs in my code, and it looks like the
+maintainer may have gone AWOL, though I'm hoping I'm wrong about that.
+
+It should be noted that the tests expect version 3.2.0 of the
+dictionary (which is distributed) with this tarball, and some of them
+may fail with other versions.
+
+Please report all bugs via RT at http://rt.cpan.org/
+
+CCDICT SOURCE
+
+This distribution includes the entire CCDICT distribution.
+
+Please see ccdict/license.txt for details on the CCDICT license.
+
+The source file itself is in ccdict/ccdict.txt.
