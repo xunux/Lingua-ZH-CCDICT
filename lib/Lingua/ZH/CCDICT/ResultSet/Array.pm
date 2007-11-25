@@ -1,6 +1,10 @@
 package Lingua::ZH::CCDICT::ResultSet::Array;
 
 use strict;
+use warnings;
+
+use base 'Lingua::ZH::CCDICT::ResultSet';
+
 
 sub new
 {
@@ -37,19 +41,6 @@ sub all
     return @{ $self->{array} };
 }
 
-sub count
-{
-    my $self = shift;
-
-    return $self->{index};
-}
-
-sub reset
-{
-    my $self = shift;
-
-    $self->{index} = 0;
-}
 
 1;
 
@@ -61,20 +52,34 @@ Lingua::ZH::CCDICT::ResultSet::Array - An iterator over an array
 
 =head1 SYNOPSIS
 
-  my $results = $ccdict->match_unicode( chr(0x8830), chr(0x88A4) );
+  my $results = $dict->match_unicode( chr 0x8830, chr 0x88A4 );
 
-  while ( my $result = $results->next )
+  while ( my $item = $results->next )
   {
-      print "Result Number ", $result->count, ": ";
-      print " cangjie is ", $result->cangjie, "\n";
+      ..
   }
 
 =head1 DESCRIPTION
 
-This module implements the C<Lingua::ZH::CCDICT::ResultSet> interface,
-as described in C<Lingua::ZH::CCDICT>.
+This module implements the C<Lingua::ZH::CCDICT::ResultSet> API.
 
-It does this by simply returning results one at a time from an array
-in memory.
+It is implemented as a simple array in memory.
+
+=head1 METHODS
+
+See the C<Lingua::ZH::CCDICT::ResultSet> documentation for details.
+
+=head1 AUTHOR
+
+David Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2002-2007 David Rolsky. All rights reserved. This
+program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+The full text of the license can be found in the LICENSE file included
+with this module.
 
 =cut

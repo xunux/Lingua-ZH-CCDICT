@@ -1,6 +1,7 @@
 package Lingua::ZH::CCDICT::Storage::BerkeleyDB;
 
 use strict;
+use warnings;
 
 use base qw( Lingua::ZH::CCDICT );
 
@@ -10,8 +11,9 @@ use File::Spec;
 
 use Params::Validate qw( validate SCALAR );
 
-use Storable ();
+use Storable qw( nfreeze );
 
+use Lingua::ZH::CCDICT::ResultItem;
 use Lingua::ZH::CCDICT::ResultSet::BerkeleyDB;
 
 
@@ -42,18 +44,18 @@ sub new
 
     my %indexes;
 
-    foreach ( $class->internal_types )
+    foreach my $type ( $class->_InternalTypes )
     {
-        next if $_ eq 'english';
+        next if $type eq 'english';
 
-        $indexes{$_} = BerkeleyDB::Hash->new( -Filename => "ccdict_index_$_",
-                                              -Env => $env,
-                                              -Flags => DB_CREATE,
-                                              -Property => DB_DUP,
-                                            )
+        $indexes{$type} = BerkeleyDB::Hash->new( -Filename => "ccdict_index_$type",
+                                                 -Env => $env,
+                                                 -Flags => DB_CREATE,
+                                                 -Property => DB_DUP,
+                                               )
             or die "Cannot create BerkeleyDB::Hash object: $! -- $BerkeleyDB::Error\n";
 
-        push @files, File::Spec->catfile( $p{work_dir}, "ccdict_index_$_" );
+        push @files, File::Spec->catfile( $p{work_dir}, "ccdict_index_$type" );
     }
 
     return bless { data    => \%main_db,
@@ -63,13 +65,13 @@ sub new
                  }, $class;
 }
 
-sub add_entry
+sub _real_add_entry
 {
-    my $self = shift;
+    my $self    = shift;
     my $unicode = shift;
-    my $entry = shift;
+    my $entry   = shift;
 
-    foreach my $key ( keys %$entry )
+    foreach my $key ( keys %{ $entry } )
     {
         next if $key eq 'english' || $key eq 'unicode';
 
@@ -84,7 +86,7 @@ sub add_entry
         }
     }
 
-    my $status = $self->{db}->db_put( $unicode => Storable::nfreeze($entry) );
+    my $status = $self->{db}->db_put( $unicode => nfreeze($entry) );
 
     die "Failed to store key ($unicode): $status" if $status;
 }
@@ -174,6 +176,7 @@ sub entry_count
 
 sub files { @{ $_[0]->{files} } }
 
+
 1;
 
 __END__
@@ -198,20 +201,36 @@ indexes.
 
 This storage implementation is quite fast and uses very little memory.
 
+The only parameter it takes is "work_dir". This directory will be used
+when creating new files from a CCDICT source file, when
+C<parse_source_file()> is called. Once these files exist, they can be
+re-used for future searches without parsing the source again.
+
+This class is the most memory-efficient of all the storage classes, as
+it uses BerkeleyDB cursors for result sets. It is also quite fast.
+
 =head1 METHODS
 
 This class offers only one method not documented in the
 C<Lingua::ZH::CCDICT> class.
 
-=over 4
+=head2 $dict->files()
 
-=item * files
+This returns a list of the files that make up the dictionary. This
+list includes files automatically created by BerkeleyDB for its own
+use.
 
-This returns a list of the files that make up the dictionary.  It does
-include files automatically created by BerkeleyDB for its own use.
+=head1 AUTHOR
 
-=head1 SEE ALSO
+David Rolsky <autarch@urth.org>
 
-Lingua::ZH::CCDICT
+=head1 COPYRIGHT
+
+Copyright (c) 2002-2007 David Rolsky. All rights reserved. This
+program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+The full text of the license can be found in the LICENSE file included
+with this module.
 
 =cut

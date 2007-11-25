@@ -1,18 +1,21 @@
 package Lingua::ZH::CCDICT::Storage::InMemory;
 
 use strict;
+use warnings;
 
 use base 'Lingua::ZH::CCDICT';
 
 use Params::Validate qw( validate SCALAR );
 
+use Lingua::ZH::CCDICT::ResultItem;
 use Lingua::ZH::CCDICT::ResultSet::Array;
+
 
 sub new
 {
     my $class = shift;
     my %p = validate( @_,
-                      { file => { type => SCALAR },
+                      { file => { type => SCALAR, optional => 1 },
                       },
                     );
 
@@ -23,22 +26,20 @@ sub new
     return $self;
 }
 
-sub add_entry
+sub _real_add_entry
 {
-    my $self = shift;
+    my $self    = shift;
     my $unicode = shift;
-    my $entry = shift;
+    my $entry   = shift;
 
     foreach my $key ( keys %$entry )
     {
         next if $key eq 'english' || $key eq 'unicode';
 
-        foreach my $val ( ref $entry->{$key} eq 'ARRAY' ?
-                          @{ $entry->{$key} } :
-                          $entry->{$key} )
+        foreach my $val ( eval { @{ $entry->{$key} } } ? @{ $entry->{$key} } : $entry->{$key} )
         {
             # intentionally stringify to take advantage of
-            # stringification overloading
+            # stringification overloading for romanizations
             push @{ $self->{$key}{"$val"} }, $unicode;
         }
     }
@@ -85,10 +86,8 @@ sub _match
     my $type = shift;
 
     return
-        $self->match_unicode( map { ( exists $self->{$type}{$_} ?
-                                      @{ $self->{$type}{$_} } :
-                                      ()
-                                    ) }
+        $self->match_unicode( map { @{ $self->{$type}{$_} } }
+                              grep { exists $self->{$type}{$_} }
                               @_
                             );
 }
@@ -98,10 +97,6 @@ sub entry_count
     return scalar keys %{ $_[0]->{unicode} };
 }
 
-sub save
-{
-    # ???
-}
 
 1;
 
@@ -122,21 +117,31 @@ Lingua::ZH::CCDICT::Storage::InMemory - Store the dictionary in memory
 =head1 DESCRIPTION
 
 This module stores the CCDICT dictionary in memory.  It uses a rather
-extraordinary amount of memory in doing so (234MB on my system), but
-it is fast.
+large amount of memory in doing so (234MB on my system), but it is
+fast.
 
 The object can be serialized to disk and reloaded, which is quicker
 than parsing the dictionary source repeatedly.
 
 For serious usage, the C<Lingua::ZH::CCDICT::Storage::BerkeleyDB>
-class is strongly recommended.
+class is strongly recommended, since you can save the results of
+parsing the CCDICT data between invocations of your code.
 
 =head1 METHODS
 
 This subclass offers no extra methods.
 
-=head1 SEE ALSO
+=head1 AUTHOR
 
-Lingua::ZH::CCDICT
+David Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2002-2007 David Rolsky. All rights reserved. This
+program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+The full text of the license can be found in the LICENSE file included
+with this module.
 
 =cut
