@@ -1,6 +1,6 @@
 ---
 name: Lingua-ZH-CCDICT
-version: 0.03
+version: 0.04
 author:
   - 'David Rolsky <autarch@urth.org>'
 abstract: An interface to the CCDICT Chinese dictionary
@@ -8,7 +8,9 @@ license: perl
 resources:
   license: http://dev.perl.org/licenses/
 requires:
+  File::Spec: 0
   Params::Validate: 0.24
+  Sub::Name: 0
 build_requires:
   File::Temp: 0
   Test::More: 0.46
@@ -18,7 +20,7 @@ recommends:
 provides:
   Lingua::ZH::CCDICT:
     file: lib/Lingua/ZH/CCDICT.pm
-    version: 0.03
+    version: 0.04
   Lingua::ZH::CCDICT::ResultItem:
     file: lib/Lingua/ZH/CCDICT/ResultItem.pm
   Lingua::ZH::CCDICT::ResultSet:

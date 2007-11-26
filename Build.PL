@@ -7,7 +7,9 @@ use Module::Build;
 
 my $build = Module::Build->new
     ( module_name        => 'Lingua::ZH::CCDICT',
-      requires           => { 'Params::Validate' => '0.24',
+      requires           => { 'File::Spec'       => 0,
+                              'Params::Validate' => '0.24',
+                              'Sub::Name'        => 0,
                             },
       recommends         => { 'BerkeleyDB' => '0.19',
                               'Storable'   => 0,

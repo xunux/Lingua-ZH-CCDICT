@@ -4,22 +4,28 @@ use strict;
 use warnings;
 
 use Params::Validate qw( validate SCALAR UNDEF ARRAYREF );
+use Sub::Name qw( subname );
 
 foreach my $item ( qw( unicode radical index stroke_count cangjie four_corner ) )
 {
+    my $sub = sub { return unless exists $_[0]->{$item};
+                    $_[0]->{$item} };
+
+    my $sub_name = __PACKAGE__ . "::$item";
+
     no strict 'refs';
-    *{ __PACKAGE__ . "::$item"} =
-        sub { return unless exists $_[0]->{$item};
-              $_[0]->{$item} };
+    *{$sub_name} = subname $sub_name => $sub;
 }
 
 foreach my $item ( qw( jyutping pinyin pinjim english ) )
 {
-    no strict 'refs';
-    *{ __PACKAGE__ . "::$item"} =
-        sub { return unless exists $_[0]->{$item};
-              wantarray ? @{ $_[0]->{$item} } : $_[0]->{$item}[0] };
+    my $sub = sub { return unless exists $_[0]->{$item};
+                    wantarray ? @{ $_[0]->{$item} } : $_[0]->{$item}[0] };
 
+    my $sub_name = __PACKAGE__ . "::$item";
+
+    no strict 'refs';
+    *{$sub_name} = subname $sub_name => $sub;
 }
 
 

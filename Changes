@@ -1,3 +1,8 @@
+0.04  2007-11-26
+
+- The 0.03 release did not declare Sub::Name as a prereq.
+
+
 0.03  2007-11-25
 
 * Updated to CCDICT 5.1.1. The data has changed a fair amount, and

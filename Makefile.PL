@@ -5,8 +5,10 @@ WriteMakefile
           'NAME' => 'Lingua::ZH::CCDICT',
           'VERSION_FROM' => 'lib/Lingua/ZH/CCDICT.pm',
           'PREREQ_PM' => {
+                           'File::Spec' => '0',
                            'File::Temp' => '0',
                            'Params::Validate' => '0.24',
+                           'Sub::Name' => '0',
                            'Test::More' => '0.46'
                          },
           'INSTALLDIRS' => 'site',
