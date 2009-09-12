@@ -51,8 +51,8 @@ STORAGE
     store the data in other formats (just Berkeley DB fo rnow).
 
     Each storage system is implemented via a module in the
-    "Lingua::ZH::CCDICT::Storage::*" class hierarchy. All of these modules
-    are subclasses of "Lingua::ZH::CCDICT" class, and implement its methods
+    `Lingua::ZH::CCDICT::Storage::*' class hierarchy. All of these modules
+    are subclasses of `Lingua::ZH::CCDICT' class, and implement its methods
     for searching the dictionary.
 
     In addition some storage classes may offer additional methods.
@@ -82,7 +82,7 @@ METHODS
     "InMemory" and "BerkeleyDB".
 
     Any other parameters given will be passed to the appropriate subclass's
-    "new()" method.
+    `new()' method.
 
   $dict->parse_source_file($filename)
     If you don't specify a file, then it will use the data file distributed
@@ -107,17 +107,17 @@ MATCH METHODS
     characters.
 
     The return value for any lookup will be an object in a
-    "Lingua::ZH::CCDICT::ResultSet" subclass.
+    `Lingua::ZH::CCDICT::ResultSet' subclass.
 
     Result sets always return matches in ascending Unicode character order.
 
   $ccdict->match_unicode(@chars)
     This method matches on one or more Unicode characters. Unicode
-    characters should be given as Perl characters (i.e. "chr(0x7D20)"), not
+    characters should be given as Perl characters (i.e. `chr(0x7D20)'), not
     as a number.
 
     This dictionary index uses *traditional* Chinese characters. Simplified
-    character lookups will not work (but you could use "Encode::HanConvert"
+    character lookups will not work (but you could use `Encode::HanConvert'
     to convert simple to traditional first).
 
   $ccdict->match_radical(@numbers)

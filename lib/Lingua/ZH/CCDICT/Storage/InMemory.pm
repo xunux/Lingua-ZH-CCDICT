@@ -55,7 +55,7 @@ sub all_characters
     return
         Lingua::ZH::CCDICT::ResultSet::Array->new
             ( results =>
-              [ map { Lingua::ZH::CCDICT::ResultSet->new( %{ $self->{unicode}{$_} } ) }
+              [ map { Lingua::ZH::CCDICT::ResultItem->new( %{ $self->{unicode}{$_} } ) }
                 sort keys %{ $self->{unicode} } ]
             );
 }

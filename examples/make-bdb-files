@@ -56,7 +56,7 @@ sub help
 {
     print <<'EOF';
 
-  make_berkeleydb_files.pl  --target=/path/to/dir  --cdict=/path/to/ccdict.txt
+  make-bdb-files  --target=/path/to/dir  --cdict=/path/to/ccdict.txt
 
 This script will create a set of CCDICT BerkeleyDB files in the
 target directory.

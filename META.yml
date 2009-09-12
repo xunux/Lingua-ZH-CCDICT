@@ -1,26 +1,28 @@
 ---
 name: Lingua-ZH-CCDICT
-version: 0.04
+version: 0.05
 author:
   - 'David Rolsky <autarch@urth.org>'
 abstract: An interface to the CCDICT Chinese dictionary
 license: perl
 resources:
   license: http://dev.perl.org/licenses/
+build_requires:
+  File::Temp: 0
+  Test::More: 0.46
 requires:
   File::Spec: 0
   Params::Validate: 0.24
   Sub::Name: 0
-build_requires:
-  File::Temp: 0
-  Test::More: 0.46
 recommends:
   BerkeleyDB: 0.19
   Storable: 0
+configure_requires:
+  Module::Build: 0.340201
 provides:
   Lingua::ZH::CCDICT:
     file: lib/Lingua/ZH/CCDICT.pm
-    version: 0.04
+    version: 0.05
   Lingua::ZH::CCDICT::ResultItem:
     file: lib/Lingua/ZH/CCDICT/ResultItem.pm
   Lingua::ZH::CCDICT::ResultSet:
@@ -37,7 +39,7 @@ provides:
     file: lib/Lingua/ZH/CCDICT/Storage/BerkeleyDB.pm
   Lingua::ZH::CCDICT::Storage::InMemory:
     file: lib/Lingua/ZH/CCDICT/Storage/InMemory.pm
-generated_by: Module::Build version 0.2808
+generated_by: Module::Build version 0.340201
 meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
